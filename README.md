@@ -32,4 +32,4 @@ The table below can describe the data format and mean adjustment combination.
 
 The following figure shows how different methods perform. It includes both single highly variable gene selection methods and the mixture. We notice the 2mv3dis4pf5pos works best, which is the default setting: c("scran","seuratv1","mv_PFlogPF","scran_pos").
 
-<img src="Figures/Fig4_CMP.pdf" alt="Fig2" style="zoom:100%;" />
+<img src="Figures/Fig4.png" alt="Fig2" style="zoom:100%;" />
