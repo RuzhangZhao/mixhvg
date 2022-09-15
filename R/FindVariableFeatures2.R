@@ -146,12 +146,12 @@ FindFeatureVal<-function(method.names,
 #' \item{mv_lognc: }{The same as scran.}
 #' \item{mv_PFlogPF: }{Use mean-variance curve adjustment on PFlog1pPF matrix, inherited from scran ModelGeneVar.}
 #' \item{scran_pos: }{Use scran possion version, modelGeneVarByPoisson.}
-#' \item{seuratv3: }{Use logmean-logvariance curve adjustment on count matrix, which is vst, Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).}
+#' \item{seuratv3: }{Use logmean-logvariance curve adjustment on count matrix, which is vst, Seurat FindVariableFeatures Function(\url{https://satijalab.org/seurat/reference/findvariablefeatures}).}
 #' \item{logmv_ct: }{The same as seuratv3.}
 #' \item{logmv_nc: }{Use logmean-logvariance curve adjustment on normalized count matrix, inherited from seuratv3(vst).}
 #' \item{logmv_lognc: }{Use logmean-logvariance curve adjustment on lognormalized count matrix, inherited from seuratv3(vst).}
 #' \item{logmv_PFlogPF: }{Use logmean-logvariance curve adjustment on PFlog1pPF matrix, inherited from seuratv3(vst).}
-#' \item{seuratv1: }{Use dispersion on lognormalized count matrix, which is dispersion (disp), Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).}
+#' \item{seuratv1: }{Use dispersion on lognormalized count matrix, which is dispersion (disp), Seurat FindVariableFeatures Function(\url{https://satijalab.org/seurat/reference/findvariablefeatures}).}
 #' \item{disp_lognc: }{The same as seuratv1.}
 #' \item{disp_PFlogPF: }{Use dispersion on PFlog1pPF matrix, inherited from seuratv1(disp).}
 #' \item{mean_max_ct: }{Highly Expressed Features with respect to count matrix.}
