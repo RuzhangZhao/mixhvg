@@ -175,6 +175,8 @@ FindFeatureVal<-function(method.names,
 #'
 #'
 #' @import Matrix
+#' @import scran
+#' @import Seurat
 #' @importFrom Seurat NormalizeData FindVariableFeatures VariableFeatures DefaultAssay
 #' @importFrom scran modelGeneVar modelGeneVarByPoisson
 #' @importFrom SingleCellExperiment SingleCellExperiment
