@@ -134,31 +134,29 @@ FindFeatureVal<-function(method.names,
 }
 
 #' FindVariableFeatures2
-#' The function inherits from FindVariableFeatures function of Seurat Package
 #'
+#' @details The function inherits from FindVariableFeatures function of Seurat Package
 #'
-#' @details This function argument to the function
-#'
-#' @param object 	An object, SeuratObject and matrix(including sparse matrix) are both acceptable
+#' @param object An object, SeuratObject and matrix(including sparse matrix) are both acceptable
 #' @param method.names The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","seuratv1","mv_PFlogPF","scran_pos"), which is also default.
 #' \itemize{
-#' \item{"scran"}{Use mean-variance curve adjustment on lognormalized count matrix, which is scran ModelGeneVar.}
-#' \item{"mv_ct"}{Use mean-variance curve adjustment on count matrix, inherited from scran ModelGeneVar.}
-#' \item{"mv_nc"}{Use mean-variance curve adjustment on normalized count matrix, inherited from scran ModelGeneVar.}
-#' \item{"mv_lognc"}{The same as scran.}
-#' \item{"mv_PFlogPF"}{Use mean-variance curve adjustment on PFlog1pPF matrix, inherited from scran ModelGeneVar.}
-#' \item{"scran_pos"}{Use scran possion version: modelGeneVarByPoisson.}
-#' \item{"seuratv3"}{Use logmean-logvariance curve adjustment on count matrix, which is vst, Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).}
-#' \item{"logmv_ct"}{The same as seuratv3.}
-#' \item{"logmv_nc"}{Use logmean-logvariance curve adjustment on normalized count matrix, inherited from seuratv3(vst).}
-#' \item{"logmv_lognc"}{Use logmean-logvariance curve adjustment on lognormalized count matrix, inherited from seuratv3(vst).}
-#' \item{"logmv_PFlogPF"}{Use logmean-logvariance curve adjustment on PFlog1pPF matrix, inherited from seuratv3(vst).}
-#' \item{"seuratv1"}{Use dispersion on lognormalized count matrix, which is dispersion (disp), Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).}
-#' \item{"disp_lognc"}{The same as seuratv1.}
-#' \item{"disp_PFlogPF"}{Use dispersion on PFlog1pPF matrix, inherited from seuratv1(disp).}
-#' \item{"mean_max_ct"}{Highly Expressed Features with respect to count matrix.}
-#' \item{"mean_max_nc"}{Highly Expressed Features with respect to normalized count matrix.}
-#' \item{"mean_max_lognc"}{Highly Expressed Features with respect to lognormalized count matrix}
+#' \item{scran: }{Use mean-variance curve adjustment on lognormalized count matrix, which is scran ModelGeneVar.}
+#' \item{mv_ct: }{Use mean-variance curve adjustment on count matrix, inherited from scran ModelGeneVar.}
+#' \item{mv_nc: }{Use mean-variance curve adjustment on normalized count matrix, inherited from scran ModelGeneVar.}
+#' \item{mv_lognc: }{The same as scran.}
+#' \item{mv_PFlogPF: }{Use mean-variance curve adjustment on PFlog1pPF matrix, inherited from scran ModelGeneVar.}
+#' \item{scran_pos: }{Use scran possion version, modelGeneVarByPoisson.}
+#' \item{seuratv3: }{Use logmean-logvariance curve adjustment on count matrix, which is vst, Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).}
+#' \item{logmv_ct: }{The same as seuratv3.}
+#' \item{logmv_nc: }{Use logmean-logvariance curve adjustment on normalized count matrix, inherited from seuratv3(vst).}
+#' \item{logmv_lognc: }{Use logmean-logvariance curve adjustment on lognormalized count matrix, inherited from seuratv3(vst).}
+#' \item{logmv_PFlogPF: }{Use logmean-logvariance curve adjustment on PFlog1pPF matrix, inherited from seuratv3(vst).}
+#' \item{seuratv1: }{Use dispersion on lognormalized count matrix, which is dispersion (disp), Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).}
+#' \item{disp_lognc: }{The same as seuratv1.}
+#' \item{disp_PFlogPF: }{Use dispersion on PFlog1pPF matrix, inherited from seuratv1(disp).}
+#' \item{mean_max_ct: }{Highly Expressed Features with respect to count matrix.}
+#' \item{mean_max_nc: }{Highly Expressed Features with respect to normalized count matrix.}
+#' \item{mean_max_lognc: }{Highly Expressed Features with respect to lognormalized count matrix}
 #' }
 #' @param nfeatures Number of features to select as top variable features.
 #' @param loess.span (Only work for logmv based methods like seuratv3). Loess span parameter used when fitting the variance-mean relationship
@@ -166,14 +164,14 @@ FindFeatureVal<-function(method.names,
 #' @param num.bin (Only work for logmv or dispersion based methods)Total number of bins to use in the scaled analysis (default is 20)
 #' @param binning.method Specifies how the bins should be computed. Available methods are:
 #' \itemize{
-#' \item{equal_width}{each bin is of equal width along the x-axis[default].}
-#' \item{equal_frequency}{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
+#' \item{equal_width: }{each bin is of equal width along the x-axis[default].}
+#' \item{equal_frequency: }{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
 #' }
 #' @param verbose Whether to show progress bar for calculations. Default is FALSE.
 #'
 #'
 #'
-#' @return object If the input is SeuratObject, the return is also SeuratObject; if the input is matrix(including sparse matrix), the return is the highly variable feature names.
+#' @return object:  If the input is SeuratObject, the return is also SeuratObject; if the input is matrix(including sparse matrix), the return is the highly variable feature names.
 #'
 #'
 #' @import Matrix
@@ -185,11 +183,12 @@ FindFeatureVal<-function(method.names,
 #' @export
 #'
 #' @examples
+#' if(0){
 #' simple_matrix<-matrix(1:2e4,nrow=4000,ncol=5)
 #' rownames(simple_matrix)<-1:nrow(simple_matrix)
 #' colnames(simple_matrix)<-1:ncol(simple_matrix)
 #' simple_matrix_HVG<-FindVariableFeatures2(simple_matrix)
-#'
+#' }
 #'
 FindVariableFeatures2<-function(object,
                                 method.names = c("scran","seuratv1","mv_PFlogPF","scran_pos"),
