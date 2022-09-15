@@ -1,0 +1,16 @@
+Package: mixhvg
+Type: Package
+Title: mixhvg: Mixture of Multiple Highly Variable Feature Selection Methods 
+Version: 0.1.0
+Authors@R:
+    c(person(given = "Ruzhang", family = "Zhao",
+    role = c("aut", "cre"),
+    email = "ruzhangzhao@gmail.com"))
+Maintainer: Ruzhang Zhao <ruzhangzhao@gmail.com>
+Description: This package works for highly variable gene selection. It includes popular public available methods, and also works for the mixture of multiple highly variable gene selection methods. The mixture enjoys the great properties of each methods. 
+Imports: 
+    scran,
+    Seurat,
+    Matrix
+License: GPL-3
+Encoding: UTF-8
