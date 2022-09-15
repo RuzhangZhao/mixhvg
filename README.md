@@ -4,7 +4,7 @@ The package **mixhvg** works for highly variable gene selection, including popul
 
 This function **FindVariableFeatures2** inherits from FindVariableFeatures function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
 
-Please use `install_github` to install the package.
+Please use `devtools::install_github("RuzhangZhao/mixhvg")` to install the package.
 
 The following methods can be chosen. And also, any mixture of the following methods is acceptable. For example, the default is c("scran","seuratv1","mv_PFlogPF","scran_pos")
 
