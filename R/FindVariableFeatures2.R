@@ -135,7 +135,7 @@ FindFeatureVal<-function(method.names,
 
 #' FindVariableFeatures2
 #'
-#' @details The function inherits from FindVariableFeatures function of Seurat Package
+#' @details The function inherits from FindVariableFeatures function of Seurat Package. Refer to \url{https://github.com/RuzhangZhao/mixhvg} for user manual.
 #'
 #' @param object An object, SeuratObject and matrix(including sparse matrix) are both acceptable
 #' @param method.names The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","seuratv1","mv_PFlogPF","scran_pos"), which is also default.
