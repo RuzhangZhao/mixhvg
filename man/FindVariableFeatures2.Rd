@@ -62,7 +62,7 @@ object:  If the input is SeuratObject, the return is also SeuratObject; if the i
 FindVariableFeatures2
 }
 \details{
-The function inherits from FindVariableFeatures function of Seurat Package
+The function inherits from FindVariableFeatures function of Seurat Package. Refer to \url{https://github.com/RuzhangZhao/mixhvg} for user manual.
 }
 \examples{
 if(0){
