@@ -4,7 +4,7 @@ comb_rank<-function(input_lst){
   for(i in 1:length(input_lst)){
     input_lst_order[[i]]<-order(order(input_lst[[i]],decreasing = T))
   }
-  
+
   apply(matrix(unlist(input_lst_order),
                ncol=length(input_lst_order),byrow = FALSE),1,FUN = min)
 }
@@ -19,7 +19,7 @@ FindFeatureVal<-function(method.names,
                          num.bin = 20,
                          binning.method = "equal_width",
                          verbose = FALSE){
-  switch(method.names, 
+  switch(method.names,
          "seuratv3"={
            feature_val <- FindVariableFeatures(counts,
                                                loess.span = loess.span,
@@ -45,7 +45,7 @@ FindFeatureVal<-function(method.names,
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
            dec.var[!dec.keep]<-0
-           feature_val<-dec.var  
+           feature_val<-dec.var
          },
          "mv_nc"={
            sce <- SingleCellExperiment(list(counts=normalizedcounts))
@@ -54,7 +54,7 @@ FindFeatureVal<-function(method.names,
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
            dec.var[!dec.keep]<-0
-           feature_val<-dec.var  
+           feature_val<-dec.var
          },
          "mv_PFlogPF"={
            sce <- SingleCellExperiment(list(counts=PFlog1pPF))
@@ -63,7 +63,7 @@ FindFeatureVal<-function(method.names,
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
            dec.var[!dec.keep]<-0
-           feature_val<-dec.var  
+           feature_val<-dec.var
          },
          "scran"={
            sce <- SingleCellExperiment(list(counts=counts))
@@ -72,7 +72,7 @@ FindFeatureVal<-function(method.names,
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
            dec.var[!dec.keep]<-0
-           feature_val<-dec.var 
+           feature_val<-dec.var
          },
          "scran_pos"={
            sce <- SingleCellExperiment(list(counts=counts))
@@ -81,7 +81,7 @@ FindFeatureVal<-function(method.names,
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
            dec.var[!dec.keep]<-0
-           feature_val<-dec.var 
+           feature_val<-dec.var
          },
          "logmv_nc"={
            feature_val <- FindVariableFeatures(normalizedcounts,
@@ -97,7 +97,7 @@ FindFeatureVal<-function(method.names,
                                                clip.max = clip.max,
                                                num.bin = num.bin,
                                                binning.method = binning.method,
-                                               verbose = verbose)$vst.variance.standardized       
+                                               verbose = verbose)$vst.variance.standardized
          },
          "logmv_PFlogPF"={
            feature_val <- FindVariableFeatures(PFlog1pPF,
@@ -105,7 +105,7 @@ FindFeatureVal<-function(method.names,
                                                clip.max = clip.max,
                                                num.bin = num.bin,
                                                binning.method = binning.method,
-                                               verbose = verbose)$vst.variance.standardized  
+                                               verbose = verbose)$vst.variance.standardized
          },
          "disp_PFlogPF"={
            feature_val <- FindVariableFeatures(
@@ -121,10 +121,10 @@ FindFeatureVal<-function(method.names,
            feature_val<-rowMeans(counts)
          },
          "mean_max_nc"={
-           feature_val<-rowMeans(normalizedcounts)          
+           feature_val<-rowMeans(normalizedcounts)
          },
          "mean_max_lognc"={
-           feature_val<-rowMeans(lognormalizedcounts)          
+           feature_val<-rowMeans(lognormalizedcounts)
          },
          {
            print("wrong input!")
@@ -135,12 +135,12 @@ FindFeatureVal<-function(method.names,
 
 #' FindVariableFeatures2
 #' The function inherits from FindVariableFeatures function of Seurat Package
-#' 
-#' 
+#'
+#'
 #' @details This function argument to the function
-#' 
+#'
 #' @param object 	An object, SeuratObject and matrix(including sparse matrix) are both acceptable
-#' @param method.names The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","seuratv1","mv_PFlogPF","scran_pos"), which is also default. 
+#' @param method.names The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","seuratv1","mv_PFlogPF","scran_pos"), which is also default.
 #' \itemize{
 #' \item{"scran"}{Use mean-variance curve adjustment on lognormalized count matrix, which is scran ModelGeneVar.}
 #' \item{"mv_ct"}{Use mean-variance curve adjustment on count matrix, inherited from scran ModelGeneVar.}
@@ -160,7 +160,7 @@ FindFeatureVal<-function(method.names,
 #' \item{"mean_max_nc"}{Highly Expressed Features with respect to normalized count matrix.}
 #' \item{"mean_max_lognc"}{Highly Expressed Features with respect to lognormalized count matrix}
 #' }
-#' @param nfeatures Number of features to select as top variable features. 
+#' @param nfeatures Number of features to select as top variable features.
 #' @param loess.span (Only work for logmv based methods like seuratv3). Loess span parameter used when fitting the variance-mean relationship
 #' @param clip.max (Only work for logmv based methods like seuratv3). After standardization values larger than clip.max will be set to clip.max; default is 'auto' which sets this value to the square root of the number of cells
 #' @param num.bin (Only work for logmv or dispersion based methods)Total number of bins to use in the scaled analysis (default is 20)
@@ -170,28 +170,26 @@ FindFeatureVal<-function(method.names,
 #' \item{equal_frequency}{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
 #' }
 #' @param verbose Whether to show progress bar for calculations. Default is FALSE.
-#' 
-#' 
-#' 
-#' 
-#' 
-#' 
 #'
-#' @return object If the input is SeuratObject, the return is also SeuratObject; if the input is matrix(including sparse matrix), the return is the highly variable feature names. 
-#' 
-#' 
-#' @import Matrix 
+#'
+#'
+#' @return object If the input is SeuratObject, the return is also SeuratObject; if the input is matrix(including sparse matrix), the return is the highly variable feature names.
+#'
+#'
+#' @import Matrix
 #' @importFrom Seurat NormalizeData FindVariableFeatures VariableFeatures DefaultAssay
-#' @importFrom scran modelGeneVar
+#' @importFrom scran modelGeneVar modelGeneVarByPoisson
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom scuttle logNormCounts
-#' @export 
+#' @importFrom methods as
+#' @export
 #'
 #' @examples
 #' simple_matrix<-matrix(1:2e4,nrow=4000,ncol=5)
 #' rownames(simple_matrix)<-1:nrow(simple_matrix)
 #' colnames(simple_matrix)<-1:ncol(simple_matrix)
 #' simple_matrix_HVG<-FindVariableFeatures2(simple_matrix)
+#'
 #'
 FindVariableFeatures2<-function(object,
                                 method.names = c("scran","seuratv1","mv_PFlogPF","scran_pos"),
@@ -200,8 +198,7 @@ FindVariableFeatures2<-function(object,
                                 clip.max = "auto",
                                 num.bin = 20,
                                 binning.method = "equal_width",
-                                verbose = FALSE,
-                                ...){
+                                verbose = FALSE){
   if (nrow(object) < nfeatures){
     stop("nfeatures should be smaller than
       the number of features in expression
@@ -221,7 +218,7 @@ FindVariableFeatures2<-function(object,
     print("WARN: There are duplicated gene names! Make gene names unique by renaming!")
     rownames(object)<-make.unique(rownames(object))
   }
-  
+
   if(inherits(x = object, 'Seurat')){
     res_return<-"Return Object"
     counts<-object@assays[[DefaultAssay(object)]]@counts
@@ -254,7 +251,7 @@ FindVariableFeatures2<-function(object,
     }
     lognormalizedcounts<-NormalizeData(counts,verbose=FALSE)
     normalizedcounts<-lognormalizedcounts
-    normalizedcounts@x<-exp(normalizedcounts@x)-1        
+    normalizedcounts@x<-exp(normalizedcounts@x)-1
     #lognormalizedcounts<-as.matrix(lognormalizedcounts)
     #normalizedcounts<-as.matrix(normalizedcounts)
     #counts<-as.matrix(counts)
@@ -265,10 +262,10 @@ FindVariableFeatures2<-function(object,
   if(sum(method.names%in%pf_group)>0){
     PFlog1pPF<-t(t(counts)/colSums(counts))*mean(colSums(counts))
     PFlog1pPF<-log1p(PFlog1pPF)
-    PFlog1pPF<-t(t(PFlog1pPF)/colSums(PFlog1pPF))*mean(colSums(PFlog1pPF))     
+    PFlog1pPF<-t(t(PFlog1pPF)/colSums(PFlog1pPF))*mean(colSums(PFlog1pPF))
     #PFlog1pPF<-as.matrix(PFlog1pPF)
   }
-  
+
   if(length(method.names) == 1){
     feature_val<-FindFeatureVal(method.names,
                                 counts=counts,
