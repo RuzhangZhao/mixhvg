@@ -18,36 +18,50 @@ devtools::install_github("RuzhangZhao/mixhvg")
 
 There are two inputs can be used in **FindVariableFeaturesMix** function. 
 
-The example data comes from 
-
-You may use [here](https://github.com/RuzhangZhao/pbmc3k/raw/main/pbmc3k_rna.rds) to download the processed data. 
+The example data comes from [10x Genomics](https://www.10xgenomics.com/resources/datasets/pbmc-from-a-healthy-donor-granulocytes-removed-through-cell-sorting-3-k-1-standard-2-0-0). You may use [this link](https://github.com/RuzhangZhao/pbmc3k/raw/main/pbmc3k_rna.rds) to download the processed data. The processed data is named as `pbmc3k_rna.rds`.
 
 #### Seurat Object as Input
 
 ```R
 pbmc<-readRDS("pbmc3k_rna.rds")
+library(Seurat)
 library(mixhvg)
 object<-CreateSeuratObject(pbmc)
 object<-FindVariableFeaturesMix(object,nfeatures=2000)
 head(VariableFeatures(object))
+# [1] "CD74"  "LYZ"   "IGLC3" "IGKC"  "RPS29" "IGHA1"
 ```
 
 One may use **FindVariableFeaturesMix** to replace the **FindVariableFeatures** function in the analysis pipeline of Seurat. For example, 
+
+```R
+object<-CreateSeuratObject(pbmc)
+object<-FindVariableFeaturesMix(object)
+object<-NormalizeData(object,verbose=FALSE)
+object<-ScaleData(object,verbose = FALSE)
+object<-RunPCA(object,npcs=30,verbose=FALSE)
+object<-RunUMAP(object,dims=1:30,verbose = FALSE)
+```
+
+#### Matrix as Input
 
 ```R
 pbmc<-readRDS("pbmc3k_rna.rds")
 library(mixhvg)
 pbmc_hvg<-FindVariableFeaturesMix(pbmc,nfeatures=2000)
 head(pbmc_hvg)
+# [1] "CD74"  "LYZ"   "IGLC3" "IGKC"  "RPS29" "IGHA1"
 ```
 
-#### Matrix as Input
+#### Different Methods 
+
+The `method.names` can take one method or multiple methods for mixture. 
 
 ```R
-R
+pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names="seuratv3")
+pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names="scran")
+pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names=c("scran","seuratv1","mv_PFlogPF","scran_pos"))
 ```
-
-
 
 ### Method Choices
 
