@@ -60,7 +60,8 @@ The `method.names` can take one method or multiple methods for mixture.
 ```R
 pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names="seuratv3")
 pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names="scran")
-pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names=c("scran","seuratv1","mv_PFlogPF","scran_pos"))
+pbmc_hvg<-FindVariableFeaturesMix(pbmc,
+                 method.names=c("scran","seuratv1","mv_PFlogPF","scran_pos"))
 ```
 
 ### Method Choices
