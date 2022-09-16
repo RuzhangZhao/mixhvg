@@ -133,7 +133,7 @@ FindFeatureVal<-function(method.names,
   return(feature_val)
 }
 
-#' FindVariableFeatures2
+#' FindVariableFeaturesMix
 #'
 #' @details The function inherits from FindVariableFeatures function of Seurat Package. Refer to \url{https://github.com/RuzhangZhao/mixhvg} for user manual.
 #'
@@ -189,10 +189,10 @@ FindFeatureVal<-function(method.names,
 #' simple_matrix<-matrix(1:2e4,nrow=4000,ncol=5)
 #' rownames(simple_matrix)<-1:nrow(simple_matrix)
 #' colnames(simple_matrix)<-1:ncol(simple_matrix)
-#' simple_matrix_HVG<-FindVariableFeatures2(simple_matrix)
+#' simple_matrix_HVG<-FindVariableFeaturesMix(simple_matrix)
 #' }
 #'
-FindVariableFeatures2<-function(object,
+FindVariableFeaturesMix<-function(object,
                                 method.names = c("scran","seuratv1","mv_PFlogPF","scran_pos"),
                                 nfeatures = 2000,
                                 loess.span = 0.3,

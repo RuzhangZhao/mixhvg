@@ -1,10 +1,55 @@
 # README
 
+### Overview
+
 The package **mixhvg** works for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods. The mixture of methods can combine the advantages captured by each single method. 
 
-This function **FindVariableFeatures2** inherits from FindVariableFeatures function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
+This function **FindVariableFeaturesMix** inherits from FindVariableFeatures function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
 
-Please use `devtools::install_github("RuzhangZhao/mixhvg")` to install the package.
+### Download
+
+Please use GitHub repo to download the most updated package.
+
+```R
+devtools::install_github("RuzhangZhao/mixhvg")
+```
+
+ ### Usage 
+
+There are two inputs can be used in **FindVariableFeaturesMix** function. 
+
+The example data comes from 
+
+You may use [here](https://github.com/RuzhangZhao/pbmc3k/raw/main/pbmc3k_rna.rds) to download the processed data. 
+
+#### Seurat Object as Input
+
+```R
+pbmc<-readRDS("pbmc3k_rna.rds")
+library(mixhvg)
+object<-CreateSeuratObject(pbmc)
+object<-FindVariableFeaturesMix(object,nfeatures=2000)
+head(VariableFeatures(object))
+```
+
+One may use **FindVariableFeaturesMix** to replace the **FindVariableFeatures** function in the analysis pipeline of Seurat. For example, 
+
+```R
+pbmc<-readRDS("pbmc3k_rna.rds")
+library(mixhvg)
+pbmc_hvg<-FindVariableFeaturesMix(pbmc,nfeatures=2000)
+head(pbmc_hvg)
+```
+
+#### Matrix as Input
+
+```R
+R
+```
+
+
+
+### Method Choices
 
 The following methods can be chosen. And also, any mixture of the following methods is acceptable. For example, the default is c("scran","seuratv1","mv_PFlogPF","scran_pos")
 
@@ -29,6 +74,8 @@ The following methods can be chosen. And also, any mixture of the following meth
 The table below can describe the data format and mean adjustment combination. 
 
  <img src="Figures/Fig2.png" alt="Fig2" style="zoom:50%;" />
+
+### Benchmark Highly Variable Gene Selection Methods
 
 The following figure shows how different methods perform. It includes both single highly variable gene selection methods and the mixture. We notice the 2mv3dis4pf5pos works best, which is the default setting: c("scran","seuratv1","mv_PFlogPF","scran_pos").
 
