@@ -2,11 +2,11 @@
 comb_rank<-function(input_lst){
   input_lst_order<-list()
   for(i in 1:length(input_lst)){
-    input_lst_order[[i]]<-order(order(input_lst[[i]],decreasing = T))
+    input_lst_order[[i]]<-order(order(input_lst[[i]],decreasing = FALSE))
   }
 
   apply(matrix(unlist(input_lst_order),
-               ncol=length(input_lst_order),byrow = FALSE),1,FUN = min)
+               ncol=length(input_lst_order),byrow = FALSE),1,FUN = max)
 }
 
 FindFeatureVal<-function(method.names,
