@@ -295,11 +295,11 @@ FindVariableFeaturesMix<-function(object,
     }
   }
   if (res_return == "Return Object"){
-    VariableFeatures(object)<-rownames(counts)[order(feature_val)[1:nfeatures]]
+    VariableFeatures(object)<-rownames(counts)[order(feature_val,decreasing = TRUE)[1:nfeatures]]
     return(object)
   }
   if (res_return == "Return Features"){
-    return(rownames(counts)[order(feature_val)[1:nfeatures]])
+    return(rownames(counts)[order(feature_val,decreasing = TRUE)[1:nfeatures]])
   }
 }
 
