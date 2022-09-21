@@ -193,7 +193,7 @@ FindFeatureVal<-function(method.names,
 #' }
 #'
 FindVariableFeaturesMix<-function(object,
-                                method.names = c("scran","seuratv1","mv_PFlogPF","scran_pos"),
+                                method.names = c("mv_nc","scran_pos","seuratv1"),
                                 nfeatures = 2000,
                                 loess.span = 0.3,
                                 clip.max = "auto",
@@ -302,4 +302,3 @@ FindVariableFeaturesMix<-function(object,
     return(rownames(counts)[order(feature_val,decreasing = TRUE)[1:nfeatures]])
   }
 }
-

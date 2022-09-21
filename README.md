@@ -61,7 +61,7 @@ The `method.names` can take one method or multiple methods for mixture.
 pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names="seuratv3")
 pbmc_hvg<-FindVariableFeaturesMix(pbmc,method.names="scran")
 pbmc_hvg<-FindVariableFeaturesMix(pbmc,
-          method.names=c("scran","seuratv1","mv_PFlogPF","scran_pos"))
+          method.names=c("mv_nc","scran_pos","seuratv1"))
 ```
 
 ### Method Choices
@@ -92,6 +92,6 @@ The table below can describe the data format and mean adjustment combination.
 
 ### Benchmark Highly Variable Gene Selection Methods
 
-The following figure shows how different methods perform. It includes both single highly variable gene selection methods and the mixture. We notice the 2mv3dis4pf5pos works best, which is the default setting: c("scran","seuratv1","mv_PFlogPF","scran_pos").
+The following figure shows how different methods perform. It includes both single highly variable gene selection methods and the mixture. We notice the 1mvn3pos4dis works best, which is the default setting: c("mv_nc","scran_pos","seuratv1").
 
 <img src="Figures/Fig4.png" alt="Fig2" style="zoom:100%;" />
