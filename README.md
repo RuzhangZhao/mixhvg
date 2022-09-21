@@ -73,7 +73,7 @@ The following methods can be chosen. And also, any mixture of the following meth
 * **mv_nc**: Use mean-variance curve adjustment on normalized count matrix, inherited from scran ModelGeneVar.
 * **mv_lognc**: The same as scran.
 * **mv_PFlogPF**: Use mean-variance curve adjustment on PFlog1pPF matrix, inherited from scran ModelGeneVar.
-* **scran_pos**: Use scran possion version, modelGeneVarByPoisson.
+* **scran_pos**: Use scran poisson version, modelGeneVarByPoisson.
 * **seuratv3**: Use logmean-logvariance curve adjustment on count matrix, which is vst, Seurat FindVariableFeatures Function(https://satijalab.org/seurat/reference/findvariablefeatures).
 * **logmv_ct**: The same as seuratv3.
 * **logmv_nc**: Use logmean-logvariance curve adjustment on normalized count matrix, inherited from seuratv3(vst).

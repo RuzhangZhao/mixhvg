@@ -145,7 +145,7 @@ FindFeatureVal<-function(method.names,
 #' \item{mv_nc: }{Use mean-variance curve adjustment on normalized count matrix, inherited from scran ModelGeneVar.}
 #' \item{mv_lognc: }{The same as scran.}
 #' \item{mv_PFlogPF: }{Use mean-variance curve adjustment on PFlog1pPF matrix, inherited from scran ModelGeneVar.}
-#' \item{scran_pos: }{Use scran possion version, modelGeneVarByPoisson.}
+#' \item{scran_pos: }{Use scran poisson version, modelGeneVarByPoisson.}
 #' \item{seuratv3: }{Use logmean-logvariance curve adjustment on count matrix, which is vst, Seurat FindVariableFeatures Function(\url{https://satijalab.org/seurat/reference/findvariablefeatures}).}
 #' \item{logmv_ct: }{The same as seuratv3.}
 #' \item{logmv_nc: }{Use logmean-logvariance curve adjustment on normalized count matrix, inherited from seuratv3(vst).}
