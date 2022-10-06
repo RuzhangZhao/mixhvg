@@ -18,7 +18,7 @@ FindVariableFeaturesMix(
 \arguments{
 \item{object}{An object, SeuratObject and matrix(including sparse matrix) are both acceptable}
 
-\item{method.names}{The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","seuratv1","mv_PFlogPF","scran_pos"), which is also default.
+\item{method.names}{The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("mv_nc","scran_pos","seuratv1"), which is also default.
 \itemize{
 \item{scran: }{Use mean-variance curve adjustment on lognormalized count matrix, which is scran ModelGeneVar.}
 \item{mv_ct: }{Use mean-variance curve adjustment on count matrix, inherited from scran ModelGeneVar.}
