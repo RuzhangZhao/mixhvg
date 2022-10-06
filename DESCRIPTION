@@ -4,7 +4,7 @@ Title: mixhvg: Mixture of Multiple Highly Variable Feature Selection Methods
 Version: 0.1.0
 Author: Ruzhang Zhao <ruzhangzhao@gmail.com>
 Maintainer: Ruzhang Zhao <ruzhangzhao@gmail.com>
-Description: This package works for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods.
+Description: A tool for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods.
 biocViews:
 Imports: 
     scran,
