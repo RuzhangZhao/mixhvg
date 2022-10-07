@@ -5,7 +5,8 @@ Version: 0.1.0
 Authors@R: c(
   person(given = "Ruzhang", family = "Zhao", email = "ruzhangzhao@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3420-5771"))
   )
-Description: A tool for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods.
+Maintainer: Ruzhang Zhao <ruzhangzhao@gmail.com>
+Description: Highly variable gene selection methods, including popular public available methods, and also the mixture of multiple highly variable gene selection methods, <https://github.com/RuzhangZhao/mixhvg>.
 biocViews:
 Imports: 
     scran,
