@@ -1,5 +1,7 @@
 # README
 
+[![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://cran.r-project.org/package=mixhvg) [![Build app](https://ci.appveyor.com/api/projects/status/a28cs08ug9qng8hn?svg=true)](https://cran.r-project.org/package=mixhvg) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mixhvg?color=blue)](https://cran.r-project.org/package=mixhvg) [![](http://cranlogs.r-pkg.org/badges/grand-total/mixhvg?color=green)](https://cran.r-project.org/package=mixhvg)
+
 ### Overview
 
 The package **mixhvg** works for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods. The mixture of methods can combine the advantages captured by each single method. 
