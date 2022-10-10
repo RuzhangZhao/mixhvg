@@ -1,4 +1,4 @@
-# mixhvg: Mixture of Highly Variable Gene Selection <img src="Figures/mixhvg.png" align="right" width="160px"/>
+# mixhvg: Mixture of Highly Variable Gene Selection <img src="Figures/mixhvg2.png" align="right" width="160px"/>
 
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://cran.r-project.org/package=mixhvg) [![Build app](https://ci.appveyor.com/api/projects/status/a28cs08ug9qng8hn?svg=true)](https://cran.r-project.org/package=mixhvg) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mixhvg?color=blue)](https://cran.r-project.org/package=mixhvg) [![](http://cranlogs.r-pkg.org/badges/grand-total/mixhvg?color=green)](https://cran.r-project.org/package=mixhvg)
 
@@ -9,6 +9,12 @@ The package **mixhvg** works for highly variable gene selection, including popul
 This function **FindVariableFeaturesMix** inherits from FindVariableFeatures function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
 
 ### Download
+
+Please download the **mixhvg** package from CRAN.
+
+```R
+install.packages("mixhvg")
+```
 
 Please use GitHub repo to download the most updated package.
 
