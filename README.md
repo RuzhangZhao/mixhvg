@@ -10,7 +10,7 @@ This function **FindVariableFeaturesMix** inherits from FindVariableFeatures fun
 
 ### Download
 
-Please download the **mixhvg** package from CRAN.
+Please download the [**mixhvg** package from CRAN](https://CRAN.R-project.org/package=mixhvg).
 
 ```R
 install.packages("mixhvg")
