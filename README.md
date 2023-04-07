@@ -96,10 +96,10 @@ The following methods can be chosen. And also, any mixture of the following meth
 
 The table below can describe the data format and mean adjustment combination. 
 
- <img src="Figures/Fig2.png" alt="Fig2" style="zoom:50%;" />
+ <img src="Figures/Fig.method.png" alt="Fig2" style="zoom:50%;" />
 
 ### Benchmark Highly Variable Gene Selection Methods
 
 The following figure shows how different methods perform. It includes both single highly variable gene selection methods and the mixture. We notice the 1mvn3pos4dis works best, which is the default setting: c("scran","scran_pos","seuratv1").
 
-<img src="Figures/Fig4.png" alt="Fig2" style="zoom:100%;" />
+<img src="Figures/Fig.comb.png" alt="Fig2" style="zoom:100%;" />
