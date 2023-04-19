@@ -236,6 +236,7 @@ FindVariableFeaturesMix<-function(object,
   if(inherits(x = object, 'Seurat')){
     res_return<-"Return Object"
     counts<-object@assays[[DefaultAssay(object)]]@counts
+    if(nrow(counts)==0){counts<-NULL}
     if(is.null(counts)){
       lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
     }
