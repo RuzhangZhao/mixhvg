@@ -66,8 +66,13 @@ FindFeatureVal<-function(method.names,
            feature_val<-dec.var
          },
          "scran"={
-           sce <- SingleCellExperiment(list(counts=counts))
-           sce <- logNormCounts(sce)
+           if(!is.null(counts)){
+             sce <- SingleCellExperiment(list(counts=counts))
+             sce <- logNormCounts(sce)
+           }else{
+             sce <- SingleCellExperiment(list(counts=lognormalizedcounts))
+             sce@assays@data$logcounts<-sce@assays@data$counts
+           }
            dec <- modelGeneVar(sce)
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
@@ -75,8 +80,13 @@ FindFeatureVal<-function(method.names,
            feature_val<-dec.var
          },
          "scran_pos"={
-           sce <- SingleCellExperiment(list(counts=counts))
-           sce <- logNormCounts(sce)
+           if(!is.null(counts)){
+             sce <- SingleCellExperiment(list(counts=counts))
+             sce <- logNormCounts(sce)
+           }else{
+             sce <- SingleCellExperiment(list(counts=lognormalizedcounts))
+             sce@assays@data$logcounts<-sce@assays@data$counts
+           }
            dec<- modelGeneVarByPoisson(sce)
            dec.var <- dec@listData$bio
            dec.keep <- !is.na(dec.var) & dec.var > 0
@@ -200,6 +210,7 @@ FindVariableFeaturesMix<-function(object,
                                 num.bin = 20,
                                 binning.method = "equal_width",
                                 verbose = FALSE){
+  allfeatures<-rownames(object)
   if (nrow(object) < nfeatures){
     stop("nfeatures should be smaller than
       the number of features in expression
@@ -219,10 +230,18 @@ FindVariableFeaturesMix<-function(object,
     print("WARN: There are duplicated gene names! Make gene names unique by renaming!")
     rownames(object)<-make.unique(rownames(object))
   }
-
+  normalizedcounts<-NULL
+  lognormalizedcounts<-NULL
+  PFlog1pPF<-NULL
   if(inherits(x = object, 'Seurat')){
     res_return<-"Return Object"
     counts<-object@assays[[DefaultAssay(object)]]@counts
+    if(is.null(counts)){
+      lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
+    }
+    if(is.null(lognormalizedcounts)){
+      stop("At least one of @counts slot or @data slot should be nonnull.")
+    }
   }else if(inherits(x = object, 'Matrix') | inherits(x = object, 'matrix')){
     if (!inherits(x = object, what = 'dgCMatrix')) {
       object <- as(object = object, Class = 'dgCMatrix')
@@ -240,25 +259,28 @@ FindVariableFeaturesMix<-function(object,
   ln_group<-c("mean_max_lognc","logmv_lognc","seuratv1")
   nc_group<-c("mean_max_nc","logmv_nc","mv_nc")
   ct_group<-c("mean_max_ct","seuratv3","mv_ct","scran_pos","scran")
-  normalizedcounts<-NULL
-  lognormalizedcounts<-NULL
-  PFlog1pPF<-NULL
+  if(sum(method.names%in%c(ct_group,pf_group))>0 & is.null(counts)){
+    stop("Without counts slot, no count based methods are available")
+  }
+
   if(sum(method.names%in%nc_group)>0){
-    if (!inherits(x = counts, 'Matrix')) {
+
+    if (!is.null(counts) & !inherits(x = counts, 'Matrix')) {
       counts <- as(object = as.matrix(x = counts), Class = 'Matrix')
     }
-    if (!inherits(x = counts, what = 'dgCMatrix')) {
+    if (!is.null(counts) & !inherits(x = counts, what = 'dgCMatrix')) {
       counts <- as(object = counts, Class = 'dgCMatrix')
     }
-    lognormalizedcounts<-NormalizeData(counts,verbose=FALSE)
+    if(is.null(lognormalizedcounts)){
+      lognormalizedcounts<-NormalizeData(counts,verbose=FALSE)
+    }
     normalizedcounts<-lognormalizedcounts
     normalizedcounts@x<-exp(normalizedcounts@x)-1
-    #lognormalizedcounts<-as.matrix(lognormalizedcounts)
-    #normalizedcounts<-as.matrix(normalizedcounts)
-    #counts<-as.matrix(counts)
+
   }else if(sum(method.names%in%ln_group)>0){
-    lognormalizedcounts<-NormalizeData(counts,verbose=FALSE)
-    #lognormalizedcounts<-as.matrix(lognormalizedcounts)
+    if(is.null(lognormalizedcounts)){
+      lognormalizedcounts<-NormalizeData(counts,verbose=FALSE)
+    }
   }
   if(sum(method.names%in%pf_group)>0){
     PFlog1pPF<-t(t(counts)/colSums(counts))*mean(colSums(counts))
@@ -295,10 +317,10 @@ FindVariableFeaturesMix<-function(object,
     }
   }
   if (res_return == "Return Object"){
-    VariableFeatures(object)<-rownames(counts)[order(feature_val,decreasing = TRUE)[1:nfeatures]]
+    VariableFeatures(object)<-allfeatures[order(feature_val,decreasing = TRUE)[1:nfeatures]]
     return(object)
   }
   if (res_return == "Return Features"){
-    return(rownames(counts)[order(feature_val,decreasing = TRUE)[1:nfeatures]])
+    return(allfeatures[order(feature_val,decreasing = TRUE)[1:nfeatures]])
   }
 }
