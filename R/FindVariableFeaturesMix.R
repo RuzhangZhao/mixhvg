@@ -117,9 +117,29 @@ FindFeatureVal<-function(method.names,
                                                binning.method = binning.method,
                                                verbose = verbose)$vst.variance.standardized
          },
+         "disp_ct"={
+           feature_val <- FindVariableFeatures(
+             log1p(counts),
+             selection.method = "disp",
+             num.bin = num.bin,
+             binning.method = binning.method,
+             verbose = verbose)$mvp.dispersion
+           feature_val[is.na(feature_val)]<-0
+           feature_val[feature_val<0]<-0
+         },
+         "disp_lognc"={
+           feature_val <- FindVariableFeatures(
+             log1p(lognormalizedcounts),
+             selection.method = "disp",
+             num.bin = num.bin,
+             binning.method = binning.method,
+             verbose = verbose)$mvp.dispersion
+           feature_val[is.na(feature_val)]<-0
+           feature_val[feature_val<0]<-0
+         },
          "disp_PFlogPF"={
            feature_val <- FindVariableFeatures(
-             PFlog1pPF,
+             log1p(PFlog1pPF),
              selection.method = "disp",
              num.bin = num.bin,
              binning.method = binning.method,
@@ -135,6 +155,9 @@ FindFeatureVal<-function(method.names,
          },
          "mean_max_lognc"={
            feature_val<-rowMeans(lognormalizedcounts)
+         },
+         "mean_max_PFlogPF"={
+           feature_val<-rowMeans(PFlog1pPF)
          },
          {
            print("wrong input!")
@@ -252,7 +275,7 @@ FindVariableFeaturesMix<-function(object,
   }else{
     stop("Input only accept SeuratObject or matrix(including sparse)!")
   }
-  method.names[method.names == "disp_lognc"]<-"seuratv1"
+  method.names[method.names == "disp_nc"]<-"seuratv1"
   method.names[method.names == "logmv_ct"]<-"seuratv3"
   method.names[method.names == "mv_lognc"]<-"scran"
   method.names<-unique(method.names)
