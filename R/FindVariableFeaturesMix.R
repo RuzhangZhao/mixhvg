@@ -261,7 +261,7 @@ FindVariableFeaturesMix<-function(object,
     counts<-object@assays[[DefaultAssay(object)]]@counts
     if(nrow(counts)==0){counts<-NULL}
     if(is.null(counts)){
-      lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
+      lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@'data'
       if(nrow(lognormalizedcounts)==0){
         stop("At least one of @counts slot or @data slot should be nonnull.")
       }
