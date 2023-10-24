@@ -261,7 +261,7 @@ FindVariableFeaturesMix<-function(object,
     counts<-object@assays[[DefaultAssay(object)]]@counts
     if(nrow(counts)==0){counts<-NULL}
     if(is.null(counts)){
-      lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@'data'
+      lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
       if(nrow(lognormalizedcounts)==0){
         stop("At least one of @counts slot or @data slot should be nonnull.")
       }
@@ -279,10 +279,10 @@ FindVariableFeaturesMix<-function(object,
   method.names[method.names == "logmv_ct"]<-"seuratv3"
   method.names[method.names == "mv_lognc"]<-"scran"
   method.names<-unique(method.names)
-  pf_group<-c("disp_PFlogPF","logmv_PFlogPF","mv_PFlogPF")
-  ln_group<-c("mean_max_lognc","logmv_lognc","seuratv1","scran_pos","scran")
-  nc_group<-c("mean_max_nc","logmv_nc","mv_nc")
-  ct_group<-c("mean_max_ct","seuratv3","mv_ct")
+  pf_group<-c("mean_max_PFlogPF","disp_PFlogPF","logmv_PFlogPF","mv_PFlogPF")
+  ln_group<-c("mean_max_lognc","logmv_lognc","disp_lognc","scran_pos","scran")
+  nc_group<-c("mean_max_nc","logmv_nc","mv_nc","seuratv1")
+  ct_group<-c("mean_max_ct","seuratv3","mv_ct","disp_ct")
   if(sum(method.names%in%c(ct_group,pf_group))>0 & is.null(counts)){
     stop("Without counts slot, no count based methods are available")
   }
