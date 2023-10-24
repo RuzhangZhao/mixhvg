@@ -215,6 +215,7 @@ FindFeatureVal<-function(method.names,
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom scuttle logNormCounts
 #' @importFrom methods as
+#' @importFrom Matrix colSums
 #' @export
 #'
 #' @examples
@@ -307,8 +308,8 @@ FindVariableFeaturesMix<-function(object,
     }
   }
   if(sum(method.names%in%pf_group)>0){
-    PFlog1pPF<-NormalizeData(counts,scale.factor=mean(colSums(counts)))
-    PFlog1pPF<-NormalizeData(PFlog1pPF,scale.factor=mean(colSums(PFlog1pPF)),normalization.method = "RC")
+    PFlog1pPF<-NormalizeData(counts,scale.factor=mean(colSums(counts)),verbose=FALSE)
+    PFlog1pPF<-NormalizeData(PFlog1pPF,scale.factor=mean(colSums(PFlog1pPF)),normalization.method = "RC",verbose=FALSE)
 
     #PFlog1pPF<-t(t(counts)/colSums(counts))*mean(colSums(counts))
     #PFlog1pPF<-log1p(PFlog1pPF)
