@@ -314,7 +314,6 @@ FindVariableFeaturesMix<-function(object,
     #PFlog1pPF<-t(t(counts)/colSums(counts))*mean(colSums(counts))
     #PFlog1pPF<-log1p(PFlog1pPF)
     #PFlog1pPF<-t(t(PFlog1pPF)/colSums(PFlog1pPF))*mean(colSums(PFlog1pPF))
-    #PFlog1pPF<-as.matrix(PFlog1pPF)
   }
 
   if(length(method.names) == 1){
