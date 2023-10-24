@@ -291,7 +291,7 @@ FindVariableFeaturesMix<-function(object,
   if(sum(method.names%in%nc_group)>0){
 
     if (!is.null(counts) & !inherits(x = counts, 'Matrix')) {
-      counts <- as(object = as.matrix(x = counts), Class = 'Matrix')
+      counts <- as(object = counts, Class = 'Matrix')
     }
     if (!is.null(counts) & !inherits(x = counts, what = 'dgCMatrix')) {
       counts <- as(object = counts, Class = 'dgCMatrix')
