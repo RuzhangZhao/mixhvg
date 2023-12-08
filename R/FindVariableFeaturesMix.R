@@ -82,10 +82,8 @@ FindFeatureVal<-function(method.names,
          "scran_pos"={
            if(!is.null(counts)){
              sce <- SingleCellExperiment(list(counts=counts))
-             sce <- logNormCounts(sce)
            }else{
              sce <- SingleCellExperiment(list(counts=lognormalizedcounts))
-             sce@assays@data$logcounts<-sce@assays@data$counts
            }
            dec<- modelGeneVarByPoisson(sce)
            dec.var <- dec@listData$bio
@@ -281,9 +279,9 @@ FindVariableFeaturesMix<-function(object,
   method.names[method.names == "mv_lognc"]<-"scran"
   method.names<-unique(method.names)
   pf_group<-c("mean_max_PFlogPF","disp_PFlogPF","logmv_PFlogPF","mv_PFlogPF")
-  ln_group<-c("mean_max_lognc","logmv_lognc","disp_lognc","scran_pos","scran")
+  ln_group<-c("mean_max_lognc","logmv_lognc","disp_lognc","scran")
   nc_group<-c("mean_max_nc","logmv_nc","mv_nc","seuratv1")
-  ct_group<-c("mean_max_ct","seuratv3","mv_ct","disp_ct")
+  ct_group<-c("mean_max_ct","seuratv3","mv_ct","disp_ct","scran_pos")
   if(sum(method.names%in%c(ct_group,pf_group))>0 & is.null(counts)){
     stop("Without counts slot, no count based methods are available")
   }
