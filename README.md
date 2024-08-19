@@ -2,9 +2,11 @@
 
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://cran.r-project.org/package=mixhvg) [![Build app](https://ci.appveyor.com/api/projects/status/a28cs08ug9qng8hn?svg=true)](https://cran.r-project.org/package=mixhvg)  
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mixhvg?color=blue)](https://cran.r-project.org/package=mixhvg) 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mixhvg)](https://cran.r-project.org/package=mixhvg) 
 
-[![](http://cranlogs.r-pkg.org/badges/grand-total/mixhvg?color=green)](https://cran.r-project.org/package=mixhvg)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/mixhvg)](https://cran.r-project.org/package=mixhvg)
+
+![CRAN status](https://www.r-pkg.org/badges/version/mixhvg)
 
 ### Overview
 
