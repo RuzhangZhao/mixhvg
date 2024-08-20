@@ -1,6 +1,6 @@
 # mixhvg: Mixture of Highly Variable Gene Selection <img src="Figures/imgfile.png" align="right" width="160px"/>
 
-[![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://cran.r-project.org/package=mixhvg) [![Build app](https://ci.appveyor.com/api/projects/status/a28cs08ug9qng8hn?svg=true)](https://cran.r-project.org/package=mixhvg)  ![CRAN status](https://www.r-pkg.org/badges/version/mixhvg)![download](https://cranlogs.r-pkg.org/badges/grand-total/mixhvg)
+[![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://cran.r-project.org/package=mixhvg) [![Build app](https://ci.appveyor.com/api/projects/status/a28cs08ug9qng8hn?svg=true)](https://cran.r-project.org/package=mixhvg) ![CRAN status](https://www.r-pkg.org/badges/version/mixhvg) ![download](https://cranlogs.r-pkg.org/badges/grand-total/mixhvg)  
 
 ### Overview
 
