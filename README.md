@@ -1,4 +1,4 @@
-# mixhvg: Mixture of Highly Variable Gene Selection <img src="Figures/imgfile.png" align="right" width="160px"/>
+# mixhvg: Mixture of Highly Variable Gene Selection <img src="man/figures/imgfile.png" align="right" width="160px"/> 
 
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://cran.r-project.org/package=mixhvg) [![Build app](https://ci.appveyor.com/api/projects/status/a28cs08ug9qng8hn?svg=true)](https://cran.r-project.org/package=mixhvg) ![CRAN status](https://www.r-pkg.org/badges/version/mixhvg) ![download](https://cranlogs.r-pkg.org/badges/grand-total/mixhvg)  
 
@@ -13,6 +13,8 @@ This function **FindVariableFeaturesMix** inherits from FindVariableFeatures fun
 ### News
 
 Sept. 1st, 2024: The package `mixhvg` is updated to version 0.2.1, which can support the use in Seurat version 5. 
+
+Aug. 26th, 2024: Our paper is on biorXiv as a preprint version: [Zhao, R., Lu, J., Zhou, W., Zhao, N., & Ji, H. (2024). A systematic evaluation of highly variable gene selection methods for single-cell RNA-sequencing. *bioRxiv*, 2024-08.]( https://doi.org/10.1101/2024.08.25.608519)
 
 ### Download
 
@@ -84,8 +86,6 @@ pbmc_hvg<-FindVariableFeaturesMix(pbmc,
 
 
 
-
-
 In the following example, we use a small cell sorting single-cell RNA-seq dataset with true label, downloaded from a large PBMC dataset. Download the example dataset using [this link](https://github.com/RuzhangZhao/data_pbmc_900). 
 
 The data was provided by the work ([Wang, J., Agarwal, D., Huang, M., Hu, G., Zhou, Z., Ye, C., & Zhang, N. R. (2019). Data denoising with transfer learning in single-cell transcriptomics. *Nature methods*, *16*(9), 875-878.](https://www.nature.com/articles/s41592-019-0537-1)), which was initially downsampled from ([Zheng, G. X., Terry, J. M., Belgrader, P., Ryvkin, P., Bent, Z. W., Wilson, R., ... & Bielas, J. H. (2017). Massively parallel digital transcriptional profiling of single cells. *Nature communications*, *8*(1), 14049.](https://www.nature.com/articles/ncomms14049)).
@@ -104,7 +104,7 @@ cell_label<-factor(cell_label$cell_type_labels,levels = c("regulatory_t","naive_
 
 Here, we check the performance of two different HVG selection methods: Seurat v3 v.s. mixHVG. The evaluation is illustrated by the UMAP plots. 
 
-First, we show the standard pipeline for visualizing the dataset with default Seurat pipeline. Check Seurat tutorial for more details. 
+First, we show the standard pipeline for visualizing the dataset with default Seurat pipeline. [Check Seurat tutorial for more details.](https://satijalab.org/seurat/articles/pbmc3k_tutorial)
 
 ```R
 library(Seurat)
@@ -125,7 +125,7 @@ dev.off()
 
 ```
 
-<img src="Figures/umap_hvg_by_seuratv3.pdf" alt="Fig2" style="zoom:120%;" />
+<img src="man/figures/umap_hvg_by_seuratv3.png" alt="seurat" style="zoom:120%;" />
 
 
 
@@ -151,7 +151,7 @@ dev.off()
 
 ```
 
-<img src="Figures/umap_hvg_by_mixhvg.pdf" alt="Fig2" style="zoom:120%;" />
+<img src="man/figures/umap_hvg_by_mixhvg.png" alt="mixhvg" style="zoom:120%;" />
 
 
 
@@ -204,7 +204,5 @@ The following methods can be chosen. And also, any mixture of the following meth
 * **mean_max_nc**: Highly Expressed Features with respect to normalized count matrix.
 * **mean_max_lognc**: Highly Expressed Features with respect to lognormalized count matrix
 
-The table below can describe the data format and mean adjustment combination. 
 
- <img src="Figures/Fig.method.png" alt="Fig2" style="zoom:50%;" />
 
