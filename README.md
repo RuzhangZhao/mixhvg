@@ -6,9 +6,9 @@
 
 The package **mixhvg** works for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods. The mixture of methods can combine the advantages captured by each single method. 
 
-This function **FindVariableFeaturesMix** inherits from FindVariableFeatures function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
+This function **FindVariableFeaturesMix** inherits from  **FindVariableFeatures** function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
 
-
+Find the tutorial website here https://mixhvg.github.io.  
 
 ### News
 
