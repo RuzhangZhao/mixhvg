@@ -212,7 +212,7 @@ FindFeatureVal<-function(method.names,
 #' @importFrom scran modelGeneVar modelGeneVarByPoisson
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom scuttle logNormCounts
-#' @importFrom methods as
+#' @importFrom methods as slotNames
 #' @importFrom Matrix colSums
 #' @export
 #'
@@ -257,10 +257,22 @@ FindVariableFeaturesMix<-function(object,
   PFlog1pPF<-NULL
   if(inherits(x = object, 'Seurat')){
     res_return<-"Return Object"
-    counts<-object@assays[[DefaultAssay(object)]]@counts
+    if("counts" %in% slotNames(object@assays[[DefaultAssay(object)]])){
+        counts<-object@assays[[DefaultAssay(object)]]@counts
+    }else if ("layers"%in% slotNames(object@assays[[DefaultAssay(object)]])){
+        counts<-object@assays[[DefaultAssay(object)]]@layers$counts
+    }else{
+        stop("Check Seurat Version. General versions 4 and 5 are supported. ")
+    }
     if(nrow(counts)==0){counts<-NULL}
     if(is.null(counts)){
-      lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
+      if("data" %in% slotNames(object@assays[[DefaultAssay(object)]])){
+          lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
+      }else if ("layers"%in% slotNames(object@assays[[DefaultAssay(object)]])){
+          lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@layers$data
+      }else{
+          stop("Check Seurat Version & Seurat Object. General versions 4 and 5 are supported. ")
+      }
       if(nrow(lognormalizedcounts)==0){
         stop("At least one of @counts slot or @data slot should be nonnull.")
       }

@@ -8,6 +8,12 @@ The package **mixhvg** works for highly variable gene selection, including popul
 
 This function **FindVariableFeaturesMix** inherits from FindVariableFeatures function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input. 
 
+
+
+### News
+
+Sept. 1st, 2024: The package `mixhvg` is updated to version 0.2.1, which can support the use in Seurat version 5. 
+
 ### Download
 
 Please download the [**mixhvg** package from CRAN](https://CRAN.R-project.org/package=mixhvg).
@@ -22,7 +28,7 @@ Please use GitHub repo to download the most updated package.
 devtools::install_github("RuzhangZhao/mixhvg")
 ```
 
- ### Usage 
+### Usage 
 
 There are two inputs can be used in **FindVariableFeaturesMix** function. 
 
