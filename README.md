@@ -78,6 +78,110 @@ pbmc_hvg<-FindVariableFeaturesMix(pbmc,
           method.names=c("scran","scran_pos","seuratv1"))
 ```
 
+
+
+---
+
+
+
+
+
+In the following example, we use a small cell sorting single-cell RNA-seq dataset with true label, downloaded from a large PBMC dataset. Download the example dataset using [this link](https://github.com/RuzhangZhao/data_pbmc_900). 
+
+The data was provided by the work ([Wang, J., Agarwal, D., Huang, M., Hu, G., Zhou, Z., Ye, C., & Zhang, N. R. (2019). Data denoising with transfer learning in single-cell transcriptomics. *Nature methods*, *16*(9), 875-878.](https://www.nature.com/articles/s41592-019-0537-1)), which was initially downsampled from ([Zheng, G. X., Terry, J. M., Belgrader, P., Ryvkin, P., Bent, Z. W., Wilson, R., ... & Bielas, J. H. (2017). Massively parallel digital transcriptional profiling of single cells. *Nature communications*, *8*(1), 14049.](https://www.nature.com/articles/ncomms14049)).
+
+
+
+Load the scRNA-seq data and its corresponding labels. 
+
+```R
+expr<-readRDS("pbmc_900.rds")
+cell_label<-read.table("cell_labels.txt",header = T)
+cell_label<-factor(cell_label$cell_type_labels,levels = c("regulatory_t","naive_t","cd34","memory_t","cd56_nk","cytotoxic_t","cd14_monocytes","b_cells","naive_cytotoxic"))
+```
+
+ There are in total 9 cell type labels, with 100 cells for each cell type. 
+
+Here, we check the performance of two different HVG selection methods: Seurat v3 v.s. mixHVG. The evaluation is illustrated by the UMAP plots. 
+
+First, we show the standard pipeline for visualizing the dataset with default Seurat pipeline. Check Seurat tutorial for more details. 
+
+```R
+library(Seurat)
+
+npcs=30
+set.seed(1)
+obj<-CreateSeuratObject(expr)
+obj$cell_label<-cell_label
+obj<-NormalizeData(obj,verbose=FALSE)
+obj<-FindVariableFeatures(obj,verbose=FALSE)
+obj<-ScaleData(obj,verbose=FALSE)
+suppressWarnings(obj<-RunPCA(obj,npcs=npcs,verbose=FALSE))
+obj<-RunUMAP(obj,dims = 1:npcs,verbose=FALSE)
+
+pdf(paste0("umap_hvg_by_seuratv3.pdf"),height = 5.5,width = 7)
+DimPlot(obj,reduction = "umap",group.by = "cell_label",shuffle = T)
+dev.off() 
+
+```
+
+<img src="Figures/umap_hvg_by_seuratv3.pdf" alt="Fig2" style="zoom:120%;" />
+
+
+
+Second, we can simply replace the line `FindVariableFeatures` by `FindVariableFeaturesMix`  with package mixhvg loaded to apply the mixHVG method. 
+
+```R
+library(Seurat)
+library(mixhvg)
+
+npcs=30
+set.seed(1)
+pbmc<-CreateSeuratObject(expr)
+pbmc$cell_label<-cell_label
+pbmc<-NormalizeData(pbmc,verbose=FALSE)
+pbmc<-FindVariableFeaturesMix(pbmc,verbose=FALSE)
+pbmc<-ScaleData(pbmc,verbose=FALSE)
+suppressWarnings(pbmc<-RunPCA(pbmc,npcs=npcs,verbose=FALSE))
+pbmc<-RunUMAP(pbmc,dims = 1:npcs,verbose=FALSE)
+
+pdf(paste0("umap_hvg_by_mixhvg.pdf"),height = 5.5,width = 7)
+DimPlot(pbmc,reduction = "umap",group.by = "cell_label",shuffle = T)
+dev.off() 
+
+```
+
+<img src="Figures/umap_hvg_by_mixhvg.pdf" alt="Fig2" style="zoom:120%;" />
+
+
+
+The evaluation is by adjusted rand index (ARI). [Refer to our paper for more details.](https://doi.org/10.1101/2024.08.25.608519)
+
+```R
+maxARI<-function(embedding,label){
+    label = as.numeric(as.factor(label))
+    snn_<- FindNeighbors(object = embedding,
+                         nn.method = "rann",
+                         verbose = F)$snn
+    res<-sapply( seq(0,2,0.1) ,function(cur){
+        cluster_label <- FindClusters(snn_,resolution = cur,
+                                      verbose = F)[[1]]
+        mclust::adjustedRandIndex(cluster_label,label)})
+    max(res)
+}
+
+ari_seuratv3<-maxARI(obj@reductions$umap@cell.embeddings,cell_label)
+ari_mixhvg<-maxARI(pbmc@reductions$umap@cell.embeddings,cell_label)
+```
+
+ARI for UMAP with HVG selection by Seurat v3 is **0.6348**
+
+ARI for UMAP with HVG selection by mixHVG is **0.6767**
+
+---
+
+
+
 ### Method Choices
 
 The following methods can be chosen. And also, any mixture of the following methods is acceptable. For example, the default is c("scran","seuratv1","mv_PFlogPF","scran_pos")
