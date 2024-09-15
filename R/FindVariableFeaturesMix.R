@@ -266,8 +266,10 @@ FindVariableFeaturesMix<-function(object,
        }else if(length(layer_names)==1){
          counts<-object@assays[[DefaultAssay(object)]]@layers[[layer_names]]
        }else{
+         var_rank<-c()
          for(lyr in layer_names){
            counts_lyr<-object@assays[[DefaultAssay(object)]]@layers[[lyr]]
+           rownames(counts_lyr)<-allfeatures
            hvg_lyr<-FindVariableFeaturesMix(counts_lyr,
                                    method.names=method.names,
                                    nfeatures = nfeatures,
@@ -276,14 +278,20 @@ FindVariableFeaturesMix<-function(object,
                                    num.bin = num.bin,
                                    binning.method = binning.method,
                                    verbose = verbose)
-           allgene_names<-rownames(object)
            vf_vst_variable<-rep(FALSE,nrow(object))
-           vf_vst_variable[which(allgene_names%in%hvg_lyr)]
+           vf_vst_variable[which(allfeatures%in%hvg_lyr)]<-TRUE
            vf_vst_rank<-rep(NA,nrow(object))
-           vf_vst_rank[match(hvg_lyr,allgene_names)]<-1:nfeatures
-           object@assays[[DefaultAssay(object)]]@meta.data[[paste0("vf_vst_",lyr,"_variable")]]<-vf_vst_variable
-           object@assays[[DefaultAssay(object)]]@meta.data[[paste0("vf_vst_",lyr,"_rank")]]<-vf_vst_rank
+           vf_vst_rank[match(hvg_lyr,allfeatures)]<-1:nfeatures
+           var_rank1<-data.frame(vf_vst_variable,vf_vst_rank)
+           colnames(var_rank1)<-c(paste0("vf_vst_",lyr,"_variable"),
+                                  paste0("vf_vst_",lyr,"_rank"))
+           if(!is.null(dim(var_rank))){
+               var_rank<-cbind(var_rank, var_rank1)
+           }else{
+               var_rank<-var_rank1
+           }
          }
+         object@assays[[DefaultAssay(object)]]@meta.data<-var_rank
          VariableFeatures(object)<-VariableFeatures(object)[1:nfeatures]
          return(object)
        }
