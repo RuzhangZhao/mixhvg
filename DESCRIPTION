@@ -1,7 +1,7 @@
 Package: mixhvg
 Type: Package
 Title: Mixture of Multiple Highly Variable Feature Selection Methods
-Version: 0.2.1
+Version: 1.0.1
 Authors@R: c(
   person(given = "Ruzhang", family = "Zhao", email = "ruzhangzhao@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3420-5771")),person(given = "Hongkai", family = "Ji", email = "hji@jhu.edu", role = "aut")
   )
