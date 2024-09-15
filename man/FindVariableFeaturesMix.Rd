@@ -19,7 +19,7 @@ FindVariableFeaturesMix(
 \item{object}{An object, SeuratObject and matrix(including sparse matrix) are both acceptable}
 
 \item{method.names}{The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","scran_pos","seuratv1"), which is also default.
-\itemize{
+\describe{
 \item{scran: }{Use mean-variance curve adjustment on lognormalized count matrix, which is scran ModelGeneVar.}
 \item{mv_ct: }{Use mean-variance curve adjustment on count matrix, inherited from scran ModelGeneVar.}
 \item{mv_nc: }{Use mean-variance curve adjustment on normalized count matrix, inherited from scran ModelGeneVar.}
@@ -48,7 +48,7 @@ FindVariableFeaturesMix(
 \item{num.bin}{(Only work for logmv or dispersion based methods)Total number of bins to use in the scaled analysis (default is 20)}
 
 \item{binning.method}{Specifies how the bins should be computed. Available methods are:
-\itemize{
+\describe{
 \item{equal_width: }{each bin is of equal width along the x-axis[default].}
 \item{equal_frequency: }{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
 }}

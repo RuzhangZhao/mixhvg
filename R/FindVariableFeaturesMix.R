@@ -170,7 +170,7 @@ FindFeatureVal<-function(method.names,
 #'
 #' @param object An object, SeuratObject and matrix(including sparse matrix) are both acceptable
 #' @param method.names The following methods can be directly used for highly variable feature selection. The mixture of methods take a vector of method list, e.g. c("scran","scran_pos","seuratv1"), which is also default.
-#' \itemize{
+#' \describe{
 #' \item{scran: }{Use mean-variance curve adjustment on lognormalized count matrix, which is scran ModelGeneVar.}
 #' \item{mv_ct: }{Use mean-variance curve adjustment on count matrix, inherited from scran ModelGeneVar.}
 #' \item{mv_nc: }{Use mean-variance curve adjustment on normalized count matrix, inherited from scran ModelGeneVar.}
@@ -194,7 +194,7 @@ FindFeatureVal<-function(method.names,
 #' @param clip.max (Only work for logmv based methods like seuratv3). After standardization values larger than clip.max will be set to clip.max; default is 'auto' which sets this value to the square root of the number of cells
 #' @param num.bin (Only work for logmv or dispersion based methods)Total number of bins to use in the scaled analysis (default is 20)
 #' @param binning.method Specifies how the bins should be computed. Available methods are:
-#' \itemize{
+#' \describe{
 #' \item{equal_width: }{each bin is of equal width along the x-axis[default].}
 #' \item{equal_frequency: }{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
 #' }
