@@ -232,15 +232,16 @@ FindVariableFeaturesMix<-function(object,
                                 num.bin = 20,
                                 binning.method = "equal_width",
                                 verbose = FALSE){
-  allfeatures<-rownames(object)
   if (nrow(object) < nfeatures){
     stop("nfeatures should be smaller than
       the number of features in expression
       matrix")
   }
-  if(is.null(rownames(object)[1])){
+  if(is.null(rownames(object))){
     rownames(object)<-c(1:nrow(object))
+    warnings("No gene name provided, output the row numbers of hvg.")
   }
+  allfeatures<-rownames(object)
   if(is.null(colnames(object)[1])){
     colnames(object)<-c(1:ncol(object))
   }else if(length(unique(colnames(object)))<
