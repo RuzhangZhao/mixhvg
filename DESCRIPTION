@@ -3,10 +3,10 @@ Type: Package
 Title: Mixture of Multiple Highly Variable Feature Selection Methods
 Version: 0.2.1
 Authors@R: c(
-  person(given = "Ruzhang", family = "Zhao", email = "ruzhangzhao@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3420-5771"))
+  person(given = "Ruzhang", family = "Zhao", email = "ruzhangzhao@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3420-5771")),person(given = "Hongkai", family = "Ji", email = "hji@jhu.edu", role = "aut")
   )
 Maintainer: Ruzhang Zhao <ruzhangzhao@gmail.com>
-Description: Highly variable gene selection methods, including popular public available methods, and also the mixture of multiple highly variable gene selection methods, <https://github.com/RuzhangZhao/mixhvg>. Reference: Zhao, R., Lu, J., Zhou, W., Zhao, N., & Ji, H. (2024). A systematic evaluation of highly variable gene selection methods for single-cell RNA-sequencing. bioRxiv, 2024-08. <https://doi.org/10.1101/2024.08.25.608519>.
+Description: Highly variable gene selection methods, including popular public available methods, and also the mixture of multiple highly variable gene selection methods, <https://github.com/RuzhangZhao/mixhvg>. Reference: <doi:10.1101/2024.08.25.608519>.
 biocViews:
 Imports: 
     scran,

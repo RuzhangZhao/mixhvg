@@ -260,11 +260,40 @@ FindVariableFeaturesMix<-function(object,
     if("counts" %in% slotNames(object@assays[[DefaultAssay(object)]])){
         counts<-object@assays[[DefaultAssay(object)]]@counts
     }else if ("layers"%in% slotNames(object@assays[[DefaultAssay(object)]])){
-        counts<-object@assays[[DefaultAssay(object)]]@layers$counts
+       layer_names<-Layers(object = object, search = "counts")
+       if(length(layer_names)==0){
+         counts = NULL
+       }else if(length(layer_names)==1){
+         counts<-object@assays[[DefaultAssay(object)]]@layers[[layer_names]]
+       }else{
+         for(lyr in layer_names){
+           counts_lyr<-object@assays[[DefaultAssay(object)]]@layers[[lyr]]
+           hvg_lyr<-FindVariableFeaturesMix(counts_lyr,
+                                   method.names=method.names,
+                                   nfeatures = nfeatures,
+                                   loess.span = loess.span,
+                                   clip.max = clip.max,
+                                   num.bin = num.bin,
+                                   binning.method = binning.method,
+                                   verbose = verbose)
+           allgene_names<-rownames(object)
+           vf_vst_variable<-rep(FALSE,nrow(object))
+           vf_vst_variable[which(allgene_names%in%hvg_lyr)]
+           vf_vst_rank<-rep(NA,nrow(object))
+           vf_vst_rank[match(hvg_lyr,allgene_names)]<-1:nfeatures
+           object@assays[[DefaultAssay(object)]]@meta.data[[paste0("vf_vst_",lyr,"_variable")]]<-vf_vst_variable
+           object@assays[[DefaultAssay(object)]]@meta.data[[paste0("vf_vst_",lyr,"_rank")]]<-vf_vst_rank
+         }
+         VariableFeatures(object)<-VariableFeatures(object)[1:nfeatures]
+         return(object)
+       }
     }else{
         stop("Check Seurat Version. General versions 4 and 5 are supported. ")
     }
-    if(nrow(counts)==0){counts<-NULL}
+    if(!is.null(counts)){
+      if(inherits(x = counts, 'Matrix') | inherits(x = counts, 'matrix')){
+        if(nrow(counts)==0){counts<-NULL}}
+    }
     if(is.null(counts)){
       if("data" %in% slotNames(object@assays[[DefaultAssay(object)]])){
           lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
