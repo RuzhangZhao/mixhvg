@@ -12,7 +12,9 @@ Find the tutorial website here https://mixhvg.github.io.
 
 ### News
 
-Sept. 1st, 2024: The package `mixhvg` is updated to version 0.2.1, which can support the use in Seurat version 5. 
+Sept. 15th, 2024: The package `mixhvg` is updated to version 1.0.1, which can support the use in Seurat version 5. 
+
+Sept. 1st, 2024: The package `mixhvg` is updated to version 0.2.1.
 
 Aug. 26th, 2024: Our paper is on biorXiv as a preprint version: [Zhao, R., Lu, J., Zhou, W., Zhao, N., & Ji, H. (2024). A systematic evaluation of highly variable gene selection methods for single-cell RNA-sequencing. *bioRxiv*, 2024-08.]( https://doi.org/10.1101/2024.08.25.608519)
 
