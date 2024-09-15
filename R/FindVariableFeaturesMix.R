@@ -261,7 +261,7 @@ FindVariableFeaturesMix<-function(object,
     if("counts" %in% slotNames(object@assays[[DefaultAssay(object)]])){
         counts<-object@assays[[DefaultAssay(object)]]@counts
     }else if ("layers"%in% slotNames(object@assays[[DefaultAssay(object)]])){
-       layer_names<-grep(pattern = "counts", x = object@assays[[DefaultAssay(object)]]@layers, value = TRUE)
+       layer_names<-grep(pattern = "counts", x = names(object@assays[[DefaultAssay(object)]]@layers), value = TRUE)
        if(length(layer_names)==0){
          counts = NULL
        }else if(length(layer_names)==1){
