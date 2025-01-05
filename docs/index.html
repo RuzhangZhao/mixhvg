@@ -83,6 +83,15 @@
 </h3>
 <p>There are two inputs can be used in <strong>FindVariableFeaturesMix</strong> function.</p>
 <p>The example data comes from <a href="https://www.10xgenomics.com/resources/datasets/pbmc-from-a-healthy-donor-granulocytes-removed-through-cell-sorting-3-k-1-standard-2-0-0" class="external-link">10x Genomics</a>. You may use <a href="https://github.com/RuzhangZhao/pbmc3k/raw/main/pbmc3k_rna.rds" class="external-link">this link</a> to download the processed data. The processed data is named as <code>pbmc3k_rna.rds</code>.</p>
+<ul>
+<li>Matrix as input: only takes count matrix.</li>
+<li>Seurat Object as input:
+<ul>
+<li>If log normalized result is in object: takes count and normalized matrices from Seurat Object.</li>
+<li>If log normalized result is not in object: takes count matrix from Seurat Object.</li>
+</ul>
+</li>
+</ul>
 <div class="section level4">
 <h4 id="seurat-object-as-input">Seurat Object as Input<a class="anchor" aria-label="anchor" href="#seurat-object-as-input"></a>
 </h4>

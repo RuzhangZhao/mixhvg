@@ -38,6 +38,11 @@ There are two inputs can be used in **FindVariableFeaturesMix** function.
 
 The example data comes from [10x Genomics](https://www.10xgenomics.com/resources/datasets/pbmc-from-a-healthy-donor-granulocytes-removed-through-cell-sorting-3-k-1-standard-2-0-0). You may use [this link](https://github.com/RuzhangZhao/pbmc3k/raw/main/pbmc3k_rna.rds) to download the processed data. The processed data is named as `pbmc3k_rna.rds`.
 
+* Matrix as input: only takes count matrix. 
+* Seurat Object as input: 
+  * If log normalized result is in object: takes count and normalized matrices from Seurat Object. 
+  * If log normalized result is not in object: takes count matrix from Seurat Object.
+
 #### Seurat Object as Input
 
 ```R
