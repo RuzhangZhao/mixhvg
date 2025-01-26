@@ -12,6 +12,7 @@ FindVariableFeaturesMix(
   clip.max = "auto",
   num.bin = 20,
   binning.method = "equal_width",
+  extra.rank = NULL,
   verbose = FALSE
 )
 }
@@ -52,6 +53,8 @@ FindVariableFeaturesMix(
 \item{equal_width: }{each bin is of equal width along the x-axis[default].}
 \item{equal_frequency: }{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
 }}
+
+\item{extra.rank}{We support the user to input customized gene rank. Provide the best gene with rank "1", and the worst gene with largest number.}
 
 \item{verbose}{Whether to show progress bar for calculations. Default is FALSE.}
 }

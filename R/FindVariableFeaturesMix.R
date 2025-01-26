@@ -2,7 +2,7 @@
 comb_rank<-function(input_lst){
   input_lst_order<-list()
   for(i in 1:length(input_lst)){
-    input_lst_order[[i]]<-order(order(input_lst[[i]],decreasing = FALSE))
+    input_lst_order[[i]]<-rank(input_lst[[i]],ties.method = 'min')
   }
 
   apply(matrix(unlist(input_lst_order),
@@ -198,6 +198,7 @@ FindFeatureVal<-function(method.names,
 #' \item{equal_width: }{each bin is of equal width along the x-axis[default].}
 #' \item{equal_frequency: }{each bin contains an equal number of features (can increase statistical power to detect overdispersed features at high expression values, at the cost of reduced resolution along the x-axis).}
 #' }
+#' @param extra.rank We support the user to input customized gene rank. Provide the best gene with rank "1", and the worst gene with largest number.
 #' @param verbose Whether to show progress bar for calculations. Default is FALSE.
 #'
 #'
@@ -225,13 +226,14 @@ FindFeatureVal<-function(method.names,
 #' }
 #'
 FindVariableFeaturesMix<-function(object,
-                                method.names = c("scran","scran_pos","seuratv1"),
-                                nfeatures = 2000,
-                                loess.span = 0.3,
-                                clip.max = "auto",
-                                num.bin = 20,
-                                binning.method = "equal_width",
-                                verbose = FALSE){
+                                  method.names = c("scran","scran_pos","seuratv1"),
+                                  nfeatures = 2000,
+                                  loess.span = 0.3,
+                                  clip.max = "auto",
+                                  num.bin = 20,
+                                  binning.method = "equal_width",
+                                  extra.rank = NULL,
+                                  verbose = FALSE){
   if (nrow(object) < nfeatures){
     stop("nfeatures should be smaller than
       the number of features in expression
@@ -242,6 +244,18 @@ FindVariableFeaturesMix<-function(object,
     warnings("No gene name provided, output the row numbers of hvg.")
   }
   allfeatures<-rownames(object)
+  if(is.null(extra.rank)){
+    if(length(extra.rank)!=length(allfeatures)){
+      stop("extra.rank needs to match the rank of all genes.")
+    }
+    if(is.null(names(extra.rank))){
+      warnings("no name provided for extra.rank, assume the same order with default gene list")
+    }else if(!setequal(names(extra.rank),allfeatures)){
+      stop("extra.rank needs to match the names of all genes.")
+    }else{
+      extra.rank = extra.rank[match(allfeatures,names(extra.rank))]
+    }
+  }
   if(is.null(colnames(object)[1])){
     colnames(object)<-c(1:ncol(object))
   }else if(length(unique(colnames(object)))<
@@ -259,45 +273,45 @@ FindVariableFeaturesMix<-function(object,
   if(inherits(x = object, 'Seurat')){
     res_return<-"Return Object"
     if("counts" %in% slotNames(object@assays[[DefaultAssay(object)]])){
-        counts<-object@assays[[DefaultAssay(object)]]@counts
+      counts<-object@assays[[DefaultAssay(object)]]@counts
     }else if ("layers"%in% slotNames(object@assays[[DefaultAssay(object)]])){
-       layer_names<-grep(pattern = "counts", x = names(object@assays[[DefaultAssay(object)]]@layers), value = TRUE)
-       if(length(layer_names)==0){
-         counts = NULL
-       }else if(length(layer_names)==1){
-         counts<-object@assays[[DefaultAssay(object)]]@layers[[layer_names]]
-       }else{
-         var_rank<-c()
-         for(lyr in layer_names){
-           counts_lyr<-object@assays[[DefaultAssay(object)]]@layers[[lyr]]
-           rownames(counts_lyr)<-allfeatures
-           hvg_lyr<-FindVariableFeaturesMix(counts_lyr,
-                                   method.names=method.names,
-                                   nfeatures = nfeatures,
-                                   loess.span = loess.span,
-                                   clip.max = clip.max,
-                                   num.bin = num.bin,
-                                   binning.method = binning.method,
-                                   verbose = verbose)
-           vf_vst_variable<-rep(FALSE,nrow(object))
-           vf_vst_variable[which(allfeatures%in%hvg_lyr)]<-TRUE
-           vf_vst_rank<-rep(NA,nrow(object))
-           vf_vst_rank[match(hvg_lyr,allfeatures)]<-1:nfeatures
-           var_rank1<-data.frame(vf_vst_variable,vf_vst_rank)
-           colnames(var_rank1)<-c(paste0("vf_vst_",lyr,"_variable"),
-                                  paste0("vf_vst_",lyr,"_rank"))
-           if(!is.null(dim(var_rank))){
-               var_rank<-cbind(var_rank, var_rank1)
-           }else{
-               var_rank<-var_rank1
-           }
-         }
-         object@assays[[DefaultAssay(object)]]@meta.data<-var_rank
-         VariableFeatures(object)<-VariableFeatures(object)[1:nfeatures]
-         return(object)
-       }
+      layer_names<-grep(pattern = "counts", x = names(object@assays[[DefaultAssay(object)]]@layers), value = TRUE)
+      if(length(layer_names)==0){
+        counts = NULL
+      }else if(length(layer_names)==1){
+        counts<-object@assays[[DefaultAssay(object)]]@layers[[layer_names]]
+      }else{
+        var_rank<-c()
+        for(lyr in layer_names){
+          counts_lyr<-object@assays[[DefaultAssay(object)]]@layers[[lyr]]
+          rownames(counts_lyr)<-allfeatures
+          hvg_lyr<-FindVariableFeaturesMix(counts_lyr,
+                                           method.names=method.names,
+                                           nfeatures = nfeatures,
+                                           loess.span = loess.span,
+                                           clip.max = clip.max,
+                                           num.bin = num.bin,
+                                           binning.method = binning.method,
+                                           verbose = verbose)
+          vf_vst_variable<-rep(FALSE,nrow(object))
+          vf_vst_variable[which(allfeatures%in%hvg_lyr)]<-TRUE
+          vf_vst_rank<-rep(NA,nrow(object))
+          vf_vst_rank[match(hvg_lyr,allfeatures)]<-1:nfeatures
+          var_rank1<-data.frame(vf_vst_variable,vf_vst_rank)
+          colnames(var_rank1)<-c(paste0("vf_vst_",lyr,"_variable"),
+                                 paste0("vf_vst_",lyr,"_rank"))
+          if(!is.null(dim(var_rank))){
+            var_rank<-cbind(var_rank, var_rank1)
+          }else{
+            var_rank<-var_rank1
+          }
+        }
+        object@assays[[DefaultAssay(object)]]@meta.data<-var_rank
+        VariableFeatures(object)<-VariableFeatures(object)[1:nfeatures]
+        return(object)
+      }
     }else{
-        stop("Check Seurat Version. General versions 4 and 5 are supported. ")
+      stop("Check Seurat Version. General versions 4 and 5 are supported. ")
     }
     if(!is.null(counts)){
       if(inherits(x = counts, 'Matrix') | inherits(x = counts, 'matrix')){
@@ -305,11 +319,11 @@ FindVariableFeaturesMix<-function(object,
     }
     if(is.null(counts)){
       if("data" %in% slotNames(object@assays[[DefaultAssay(object)]])){
-          lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
+        lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@data
       }else if ("layers"%in% slotNames(object@assays[[DefaultAssay(object)]])){
-          lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@layers$data
+        lognormalizedcounts<-object@assays[[DefaultAssay(object)]]@layers$data
       }else{
-          stop("Check Seurat Version & Seurat Object. General versions 4 and 5 are supported. ")
+        stop("Check Seurat Version & Seurat Object. General versions 4 and 5 are supported. ")
       }
       if(nrow(lognormalizedcounts)==0){
         stop("At least one of @counts slot or @data slot should be nonnull.")
@@ -388,8 +402,11 @@ FindVariableFeaturesMix<-function(object,
                                             num.bin = num.bin,
                                             binning.method = binning.method,
                                             verbose = verbose)
-      feature_val<-comb_rank(feature_val_list)
     }
+    if(!is.null(extra.rank)){
+      feature_val_list[[length(method.names)+1]] = -1*extra.rank
+    }
+    feature_val<-comb_rank(feature_val_list)
   }
   if (res_return == "Return Object"){
     VariableFeatures(object)<-allfeatures[order(feature_val,decreasing = TRUE)[1:nfeatures]]
