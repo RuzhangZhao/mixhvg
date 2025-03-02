@@ -244,7 +244,7 @@ FindVariableFeaturesMix<-function(object,
     warnings("No gene name provided, output the row numbers of hvg.")
   }
   allfeatures<-rownames(object)
-  if(is.null(extra.rank)){
+  if(!is.null(extra.rank)){
     if(length(extra.rank)!=length(allfeatures)){
       stop("extra.rank needs to match the rank of all genes.")
     }
