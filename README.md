@@ -10,6 +10,8 @@ This function **FindVariableFeaturesMix** inherits from  **FindVariableFeatures*
 
 Find the tutorial website here https://mixhvg.github.io.  
 
+By default, mixhvg accepts a raw count matrix as input and performs the necessary preprocessing internally, including log-normalization and PFlogPF transformation. However, users may also input a Seurat object. If the Seurat object contains only the raw count matrix, mixhvg will handle it the same way as a standalone count matrix. If the Seurat object includes both raw counts and user-processed log-normalized counts, then the log-normalized data in the Seurat object will be used directly for all methods that require it (e.g., lognc methods), while the raw counts will still be used for all other methods (e.g., ct, nc, and PFlogPF methods).
+
 ### News
 
 Sept. 15th, 2024: The package `mixhvg` is updated to version 1.0.1, which can support the use in Seurat version 5. 
