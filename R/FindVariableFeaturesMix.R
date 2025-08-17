@@ -389,6 +389,12 @@ FindVariableFeaturesMix<-function(object,
                                 num.bin = num.bin,
                                 binning.method = binning.method,
                                 verbose = verbose)
+    if (!is.null(extra.rank)){
+      feature_val_list<-list()
+      feature_val_list[[1]]<-feature_val
+      feature_val_list[[2]]<- -1*extra.rank
+      feature_val<-comb_rank(feature_val_list)
+    }
   }else{
     feature_val_list<-list()
     for(i in 1:length(method.names)){

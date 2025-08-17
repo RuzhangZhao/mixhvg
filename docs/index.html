@@ -60,6 +60,7 @@
 <p>The package <strong>mixhvg</strong> works for highly variable gene selection, including popular public available methods, and also the mixture of multiple highly variable gene selection methods. The mixture of methods can combine the advantages captured by each single method.</p>
 <p>This function <strong>FindVariableFeaturesMix</strong> inherits from <strong>FindVariableFeatures</strong> function of Seurat Package, which can be used the same as FindVariableFeatures. Also, it accepts the dense or sparse matrix input.</p>
 <p>Find the tutorial website here <a href="https://mixhvg.github.io" class="external-link uri">https://mixhvg.github.io</a>.</p>
+<p>By default, mixhvg accepts a raw count matrix as input and performs the necessary preprocessing internally, including log-normalization and PFlogPF transformation. However, users may also input a Seurat object. If the Seurat object contains only the raw count matrix, mixhvg will handle it the same way as a standalone count matrix. If the Seurat object includes both raw counts and user-processed log-normalized counts, then the log-normalized data in the Seurat object will be used directly for all methods that require it (e.g., lognc methods), while the raw counts will still be used for all other methods (e.g., ct, nc, and PFlogPF methods).</p>
 </div>
 <div class="section level3">
 <h3 id="news">News<a class="anchor" aria-label="anchor" href="#news"></a>
