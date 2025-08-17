@@ -240,6 +240,41 @@
 <li>
 <strong>mean_max_lognc</strong>: Highly Expressed Features with respect to lognormalized count matrix</li>
 </ul>
+<div class="section level4">
+<h4 id="appendix">Appendix:<a class="anchor" aria-label="anchor" href="#appendix"></a>
+</h4>
+<p>We can also include HIG as a baseline method in our mixture. HIG is a part of scCAD, a method designed for rare cell type identification. Please refer to our paper for more details.</p>
+<p>For this purpose, we first install the scCAD Python package following the instructions on <a href="https://github.com/xuyp-csu/scCAD" class="external-link uri">https://github.com/xuyp-csu/scCAD</a>. According to the instructions, we will create a conda environment named scCAD_env, and install scCAD into this environment.</p>
+<p>scCAD outputs a mixture of HVGs and HIGs, where the HVGs are identified by Seurat v1. We have modifed its source code to output only the HIGs. The modified code is provided in myscCAD.py. Please copy this file and paste it in the directory of the scCAD_env environment.</p>
+<p>We will also need the reticulate R package to call Python from R. It can be installed and loaded using the following code.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"reticulate"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {  <span class="fu">install.packages</span>(<span class="st">"reticulate"</span>)}<span class="fu">library</span>(reticulate)</span></code></pre></div>
+<p>Now we are ready to incorporate HIG in our mixture. This will be done in two steps: (1) We apply the HIG method and obtain the importance scores of the genes. We denote the ranking of the importance scores as extra.rank. (2) We use the FindVariableFeaturesMix function again, while using extra.rank as an input to this function.</p>
+<p>We first apply HIG to our 900-cell example from the PBMC dataset.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">use_condaenv</span><span class="op">(</span><span class="st">"scCAD_env"</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">scCAD</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"scCAD"</span><span class="op">)</span></span>
+<span><span class="va">np</span> <span class="op">=</span> <span class="fu">import</span><span class="op">(</span><span class="st">"numpy"</span><span class="op">)</span></span>
+<span><span class="va">py_float</span> <span class="op">&lt;-</span> <span class="fu">py_eval</span><span class="op">(</span><span class="st">"float"</span><span class="op">)</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">np</span><span class="op">$</span><span class="fu">vectorize</span><span class="op">(</span><span class="va">py_float</span><span class="op">)</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">geneNames</span> <span class="op">=</span> <span class="va">np</span><span class="op">$</span><span class="fu">array</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cellNames</span> <span class="op">=</span> <span class="va">np</span><span class="op">$</span><span class="fu">array</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">HIGres</span> <span class="op">=</span> <span class="va">scCAD</span><span class="op">$</span><span class="va">myscCAD</span><span class="op">$</span><span class="fu">getHIG</span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span>, </span>
+<span>                            dataName<span class="op">=</span><span class="va">dataset_name</span>,</span>
+<span>                            cellNames<span class="op">=</span><span class="va">cellNames</span>, geneNames<span class="op">=</span><span class="va">geneNames</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">selected_gene_names</span> <span class="op">=</span> <span class="va">HIGres</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">selected_gene_imp</span> <span class="op">=</span> <span class="va">HIGres</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">imp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">geneNames</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">imp</span><span class="op">)</span> <span class="op">=</span> <span class="va">geneNames</span></span>
+<span><span class="va">imp</span><span class="op">[</span><span class="va">selected_gene_names</span><span class="op">]</span> <span class="op">=</span> <span class="va">selected_gene_imp</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">extra.rank</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank</a></span><span class="op">(</span><span class="op">-</span><span class="va">imp</span>, ties.method <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">extra.rank</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">extra.rank</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Then we call the FindVariableFeaturesMix and use extra.rank as an argument.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc_with_HIG</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/FindVariableFeaturesMix.html">FindVariableFeaturesMix</a></span><span class="op">(</span><span class="va">pbmc</span>, extra.rank<span class="op">=</span><span class="va">extra.rank</span>, verbose<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

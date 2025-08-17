@@ -215,3 +215,54 @@ The following methods can be chosen. And also, any mixture of the following meth
 
 
 
+#### Appendix: 
+
+We can also include HIG as a baseline method in our mixture. HIG is a part of scCAD, a method designed for rare cell type identification. Please refer to our paper for more details.
+
+For this purpose, we first install the scCAD Python package following the instructions on https://github.com/xuyp-csu/scCAD. According to the instructions, we will create a conda environment named scCAD_env, and install scCAD into this environment.
+
+scCAD outputs a mixture of HVGs and HIGs, where the HVGs are identified by Seurat v1. We have modifed its source code to output only the HIGs. The modified code is provided in myscCAD.py. Please copy this file and paste it in the directory of the scCAD_env environment.
+
+We will also need the reticulate R package to call Python from R. It can be installed and loaded using the following code.
+
+```R
+if (!requireNamespace("reticulate", quietly = TRUE)) {  install.packages("reticulate")}library(reticulate)
+```
+
+
+
+Now we are ready to incorporate HIG in our mixture. This will be done in two steps: (1) We apply the HIG method and obtain the importance scores of the genes. We denote the ranking of the importance scores as extra.rank. (2) We use the FindVariableFeaturesMix function again, while using extra.rank as an input to this function.
+
+We first apply HIG to our 900-cell example from the PBMC dataset.
+
+```R
+use_condaenv("scCAD_env", required = TRUE)
+
+scCAD <- import("scCAD")
+np = import("numpy")
+py_float <- py_eval("float")
+data <- np$vectorize(py_float)(t(as.matrix(expr)))
+geneNames = np$array(rownames(expr))
+cellNames = np$array(colnames(expr))
+HIGres = scCAD$myscCAD$getHIG(data=data, 
+                            dataName=dataset_name,
+                            cellNames=cellNames, geneNames=geneNames) 
+
+selected_gene_names = HIGres[[1]]
+selected_gene_imp = HIGres[[2]]
+imp = rep(0, length(geneNames))
+names(imp) = geneNames
+imp[selected_gene_names] = selected_gene_imp
+set.seed(1)
+extra.rank = rank(-imp, ties.method = "random")
+names(extra.rank) = gsub("_", "-", names(extra.rank))
+```
+
+
+
+Then we call the FindVariableFeaturesMix and use extra.rank as an argument.
+
+```R
+pbmc_with_HIG <- FindVariableFeaturesMix(pbmc, extra.rank=extra.rank, verbose=FALSE)
+```
+
