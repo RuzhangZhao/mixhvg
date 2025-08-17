@@ -221,7 +221,7 @@ We can also include HIG as a baseline method in our mixture. HIG is a part of sc
 
 For this purpose, we first install the scCAD Python package following the instructions on https://github.com/xuyp-csu/scCAD. According to the instructions, we will create a conda environment named scCAD_env, and install scCAD into this environment.
 
-scCAD outputs a mixture of HVGs and HIGs, where the HVGs are identified by Seurat v1. We have modifed its source code to output only the HIGs. The modified code is provided in myscCAD.py. Please copy this file and paste it in the directory of the scCAD_env environment.
+scCAD outputs a mixture of HVGs and HIGs, where the HVGs are identified by Seurat v1. We have modifed its source code to output only the HIGs. The modified code is provided in [myscCAD.py](https://github.com/RuzhangZhao/benchmarkHVG/blob/main/R/myscCAD.py). Please copy this file and paste it in the directory of the scCAD_env environment.
 
 We will also need the reticulate R package to call Python from R. It can be installed and loaded using the following code.
 
