@@ -20,6 +20,10 @@ Sept. 1st, 2024: The package `mixhvg` is updated to version 0.2.1.
 
 Aug. 26th, 2024: Our paper is on biorXiv as a preprint version: [Zhao, R., Lu, J., Zhou, W., Zhao, N., & Ji, H. (2024). A systematic evaluation of highly variable gene selection methods for single-cell RNA-sequencing. *bioRxiv*, 2024-08.]( https://doi.org/10.1101/2024.08.25.608519)
 
+### License
+
+GPL-3
+
 ### Download
 
 Please download the [**mixhvg** package from CRAN](https://CRAN.R-project.org/package=mixhvg).
